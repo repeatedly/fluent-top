@@ -5,8 +5,8 @@ require 'optparse'
 options = {}
 
 opt = OptionParser.new
-opt.on('-s VAL') { |v| options[:sleep] = v.to_f }
-opt.on('-e VAL') { |v| options[:endpoint] = v }
+opt.on('-i', '--interval VAL', 'update interval to refresh the terminal', Float) { |v| options[:interval] = v }
+opt.on('-e', '--endpoint VAL', "endpoint of fluentd's debug agent") { |v| options[:endpoint] = v }
 opt.parse!(ARGV)
 
 $:.unshift File.dirname(__FILE__) + '/../lib' if $0 == __FILE__

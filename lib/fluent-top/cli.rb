@@ -6,7 +6,7 @@ require 'hirb'
 module Fluent::Top
   class CLI
     def initialize(options)
-      @sleep = options[:sleep] || 1.0
+      @interval = options[:interval] || 1.0
       @endpoint = options[:endpoint] || '0.0.0.0:24230'
       @fluentd = setup_agent
       @width, @height = detect_terminal_size
@@ -15,21 +15,21 @@ module Fluent::Top
     def run
       loop {
         display
-        sleep @sleep
+        sleep @interval
       }
     rescue Interrupt
     end
 
     OUTPUT_FIELDS = [:match, :type, :emit_count, :num_queue, :num_buffer_keys, :total_chunk_size]
     INSTANCE_FIELDS = [:num_match_caches, :num_threads] + GC.stat.keys.sort
-    SYSTEM_FIELDS = [:cpu, :rss, :vsize]
+    SYSTEM_FIELDS = [:cpu, :rss, :vsize] # TODO: make this columns user-definable
 
     def display
       out = []
       num_lines = 0
 
       out << "Fluentd daemon: #{@endpoint}"
-      #out << "Update interval: #{@sleep} sec"
+      #out << "Update interval: #{@interval} sec"
       out << ""
       num_lines += 2
 
