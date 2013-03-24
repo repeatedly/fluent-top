@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+options = {}
+
+opt = OptionParser.new
+opt.on('-s VAL') { |v| options[:sleep] = v.to_f }
+opt.on('-e VAL') { |v| options[:endpoint] = v }
+opt.parse!(ARGV)
+
+$:.unshift File.dirname(__FILE__) + '/../lib' if $0 == __FILE__
+require 'fluent-top'
+Fluent::Top::CLI.new(options).run
